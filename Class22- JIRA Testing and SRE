@@ -1,0 +1,53 @@
+JIRA
+=====
+
+JIRA> It's a ticketing tool that can we use to support end to end project.
+EPIC[collection of stories], STORY[collection of task's], TASK[collection of subtask], SUbtask
+
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+./mvnw package
+java -jar target/*.jar
+
+EPIC: Installing spring pet clinic[Collection of story]
+Story1: Creating environment
+   Task1: Install java
+      Subtask1: Download the java
+   Task2: install GIT
+   Task3: Install Maven
+Story2: Deploying the Application
+   Task1: Cloning the repository
+   Task2: Package the application
+
+Here for above task we need 8 ticket, I can create 1 story, and manage all the things over their.
+
+Purpose: To make everyone unstand what is happening.
+
+SRE[SITE Reliability Engineer]
+==============================
+It's Google term to run their system in production.
+
+Devops Vs SRE
+==============
+Devops: It's mathodology for improvement.
+SRE: it talk about how to improve.
+
+Link: https://www.linkedin.com/pulse/site-reliability-engineering-sre-what-advantages-how-do-dan-martines/
+
+SRE is a Devops Specilast who work for improvement.
+
+Testing
+=======
+Software Testing - Definition, Fundamentals and Principles 
+Bugs , Validation & Verification , SDLC , STLC 
+SDLC Models : Water Fall, V, Iterative and Incremental 
+SDLC Models - RAD, Prototype, Spiral and Agile 
+Software Test Phases/Levels 
+Functional, Non-Functional and Other Testing Types 
+Static & Dynamic Testing / Review Process 
+Dynamic Testing Techniques
+White Box Testing and Techniques 
+Test Management, Monitoring and Control 
+Configuration and Defect Management 
+Test and Defect Management Tools 
+UNIT and regression testing[checking for copatabilty between existing code and newly code that is going to add]
