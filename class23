@@ -1,0 +1,96 @@
+1) WORA
+2) Pull request
+3) git fork
+4) Branching stategy
+5) shared library
+Pipeline as code
+sample jenkin pipeline
+
+
+Lets say, we have a project https://github.com/spring-projects/spring-petclinic, and I have no access to it, but I want to contribute something, Can I contribute.
+
+Pull request: It is the request where you are proposing your changes to a repository.
+
+GIT fork: copying repository to prapose new changes
+
+WORA: Write once, run anywhere
+==============================
+
+docker tag image2 2020ht66049/image2:8.2.2
+docker push 2020ht66049/image2:8.2.2
+
+Branching stategy: TBT[trunk based development]
+================================================
+
+Shared libary in jenkins by shell script
+========================================
+lib.sh > I would be writing so many functions, and to invoke any of that function
+
+source lib.sh
+
+Now, lets install jenkins
+
+1) Create linux server, and open all[8080] port.
+2) Install java
+3) Install jenkins
+
+http://ec2-18-236-167-52.us-west-2.compute.amazonaws.com:8080/
+Ganesh/Ganesh@321
+
+How to write jenkins pipeline
+=============================
+Pipeline
+    stages
+        stage
+            steps
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Manual deployment') {
+            steps {
+                echo 'Manual deployment'
+            }
+        }
+        stage('Testing') {
+            steps {
+                echo 'Testing'
+            }
+        }
+        stage('Docker image creation') {
+            steps {
+                echo 'Docker image creation'
+            }
+        }
+        stage('docker image deployment') {
+            steps {
+                echo 'docker image deployment'
+            }
+        }
+        stage('Notification') {
+            steps {
+                echo 'notifying users about the deployment'
+            }
+        }
+        stage('Handshake with customer') {
+            steps {
+                echo 'notifying users about the deployment'
+            }
+        }
+    }
+}
+
+How to write pipeline:
+======================
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+./mvnw package
+java -jar target/*.jar
+
+
+Jenkins is giving you the way to write the code.
+
+checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+    userRemoteConfigs: [[url: 'https://github.com/spring-projects/spring-petclinic.git']]])
