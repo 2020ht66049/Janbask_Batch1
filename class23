@@ -94,3 +94,20 @@ Jenkins is giving you the way to write the code.
 
 checkout([$class: 'GitSCM', branches: [[name: '*/main']],
     userRemoteConfigs: [[url: 'https://github.com/spring-projects/spring-petclinic.git']]])
+
+
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Source Code') {
+            steps {
+                git url: 'https://github.com/GitPracticeRepo/spring-petclinic.git', 
+                branch: 'main'
+            }
+        }
+    }
+}
+
