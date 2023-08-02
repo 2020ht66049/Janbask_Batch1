@@ -1,0 +1,147 @@
+1) What is pipeline
+===================
+
+Suppose, we weant to deliver some product to customer, so we need to follow set of steps
+
+>>> Plan > code > build > test > release[Anything in lower environment] > deploy[Anthing in production] > monitor
+
+>>> When we release the code it's internally available, but when we deploy it's available to end user.
+
+>>> Lets say my application is spring pet clinic, and I want to deploy it in 5 environment
+    Devlopment - To develop, build and test the application[./mvnw validate, ./mvnw compile]
+          Test - Here we do end to end application testing by tester[./mvnw test]
+       Staging - Here we can perform function and non functional testing[look, feels and lifeHere] [./mvnw integration-test ]
+      pre-prod - Here, customer would be performing acceptance testing [./mvnw package]
+    Production - This code is release for end user
+
+
+>>> Below are the step to deploy the application
+
+apt install openjdk-17-jre-headless
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+./mvnw clean package -DskipTests
+java -jar target/*.jar
+
+
+>>> maven goal
+
+    validate: check if all information necessary for the build is available
+    compile: compile the source code
+    test-compile: compile the test source code
+    test: run unit tests
+    package: package compiled source code into the distributable format (jar, war, …)
+    integration-test: process and deploy the package if needed to run integration tests
+    install: install the package to a local repository
+    deploy: copy the package to the remote repository
+
+>>> in all the environment we are ruuning some set of linux commands, can we automate them.
+
+
+>>> Teams deploy, release , build, deployment
+    deployment: Running setof instruction to server that are shared by development team.
+       Phase1-release: When we do deployment in lower environment
+        Phase2-deploy: When we do deployment in production environment
+         build: Generating the artifact that promotes [WORA]
+       
+>>> Correct flow devlopment > Deployment > testing 
+
+>>> Withoud doing deployment can we do testing? Generally No in few cases, and yes in few cases
+    Manual testing: Here tester will check funtion manually.[in this case deployment needs to be done first]
+
+
+git clone https://github.com/spring-projects/spring-petclinic.git [Stage1: Cloning source code]
+
+./mvnw clean test -DskipTests [Unit testing]
+
+./mvnw clean integration-test -DskipTests [Integration testing]
+
+./mvnw clean package -DskipTests [Release]
+java -jar target/*.jar
+
+./mvnw clean package -DskipTests [Deploy]
+java -jar target/*.jar
+
+Devlopment> Create the code
+
+deployment> deploy the code
+
+test > test the code
+
+test2> testing the code
+
+test3 > testing the code
+
+Pipeline for spring pet clinic
+==============================
+pipeline {
+    agent any
+
+    stages {
+        stage('Cloning Source Code') {
+            steps {
+                git url: 'https://github.com/GitPracticeRepo/spring-petclinic.git', 
+                branch: 'main'
+            }
+        }
+        stage('Compile') {
+            steps {
+                sh '''./mvnw clean compile -DskipTests
+                    echo Hello'''
+            }
+        }
+        stage('Build') {
+            steps {
+                sh '''./mvnw clean compile -DskipTests
+                    echo Hello'''
+            }
+        }
+        stage('Test') {
+            steps {
+                sh '''./mvnw clean compile -DskipTests
+                    echo Hello'''
+            }
+        }
+        stage('Integration test') {
+            steps {
+                sh '''./mvnw clean compile -DskipTests
+                    echo Hello'''
+            }
+        }
+        stage('User Acceptance testing') {
+            steps {
+                sh '''./mvnw clean compile -DskipTests
+                    echo Hello'''
+            }
+        }
+    }
+}
+
+2) Jenkin pipeline for spring pet clinic
+3) Upstram and downstream[wil see this more tomorrow]
+Lets say we have 5 environment, and every environment is having 5 stages, so overall we are going to have 
+     5*5= 25 stages
+Those stages may contain duplicate steps, we can avoid them by using upstream and downstarem job.
+
+5) plugin[Will see this practically tomorrow]
+Suppose, from java I want to connect with database, I need to give jdbc URL
+jdbc:odbc:driver@localhost:/oracle/1531
+Drivername: jdbc:odbc
+Hostname: localhost
+port number: 1531
+
+6) Master slave architecture
+Now, my jenkins is very slow, so can we add multiple server to share the load? yes[i.e. known as master slave architecture]
+
+
+tomorrow's Agenda
+==================
+1) Understanding pipeline steps for any application
+       1) Build pipeline
+       2) release pipeline
+
+2) Plugin in Jenkins
+
+3) Master slave architecture in jenkins
+
+4) Exploring jenkins console
