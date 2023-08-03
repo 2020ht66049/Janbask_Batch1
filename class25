@@ -1,0 +1,72 @@
+Today's Agenda
+==================
+1) Understanding pipeline steps for any application
+       1) Build pipeline
+       2) release pipeline
+
+>>> Every programing person follow set of rule to write the code
+
+If(condition)
+    echo "Hello"
+fi
+
+If(condition)
+ echo "Hello"
+fi
+
+If(condition)
+  echo "Hello"
+fi
+
+All above code work fine, suppose I want to create pull request for spring pet clinic, then I need to follow spc codding standards, to review my code standard they have build pipeline, where they have set up rule to review the changes.
+
+#!/bin/bash
+echo "umesh"
+
+In release pipeline they run those manual steps to makesure newly added changes are not creating any issue.
+
+
+2) Plugin in Jenkins
+====================
+SCM: Source code management(version control system)
+
+I want to configute the GIT with jenkins
+GIT URL[https://github.com/spring-projects/spring-boot], Branch, username, and password[Id provide password, or key]> rsa key-gen 
+
+Link: https://www.jenkins.io/doc/book/managing/plugins/
+
+
+3) Master slave architecture in jenkins
+=======================================
+>>> I have created EC2 instance, and open port 8080
+>>> installed java 17
+       apt-get update
+       apt install openjdk-17-jre-headless
+>>> Now installed jenkins, please refer https://www.jenkins.io/doc/book/installing/linux/
+
+>>> My requirement is I need to java17, java11 and java18 to run my system. But it's not possible in 1 system, because system will alway show the latest software installed.
+
+>>> I want to run my application globally it means I want 1 server in US, 1 in Aus and 1 in India for all 3 Application.
+
+>>> I can create multiple server by selecting availability zone. so, now I have 9 server, 3 server for spring pet clinic, 3 for open MRS and 3 for spring boot.
+
+>>> First problem is also solved, because I am having now in separate server.
+
+Refer https://dzone.com/articles/jenkins-03-configure-master-and-slave here master slave setup
+
+4) Exploring jenkins console
+Build, post build, build triger, execute
+
+poll scm: it means whenever new change are introduced then we would be running the pipeline.
+
+5) Port: endpoint
+End point means what would be my destination> Example, Suppose I want to go to US.
+port range 0 to 65535.
+port is the entry point for traffic.
+
+A port can be defined as a logical entity in computer networking and software terms. It acts as a communication endpoint for identifying a given process or application on the Linux operating system. A port is a 16-bit (o to 65535) number that differentiates a single application from others on various end systems.
+
+Endpoint> patrick.rohan@gmail.com > it's basically final destination which can not further optimize.
+
+Linux work in the concept of virtual world, to reach to physical server we need entry port.
+     physical server
