@@ -1,0 +1,87 @@
+Kubernetes
+==========
+
+Problem with docker:
+
+1) Docker is single host solution, and it is suitable for small scale, but in IT industry we need a distributed large system.
+
+2) To support multi server architecture docker introduce docker swarm, but it's very less popular because in those days[in around 2015] docker was very new to market.
+
+3) Same time Google has lanched K8s which is alternative to docker swarm, it is get very good popularity.
+
+4) Kubernetes architecture
+
+    No more than 110 pods per node
+    No more than 5,000 nodes
+    No more than 150,000 total pods
+    No more than 300,000 total containers
+
+5) Docker container in terms kubernetes is known as pod. pod can be combination of multiple containers.
+
+6) Let's try to understand K8s architecture-
+
+7) Work of master is distribute incoming request to slave nodes.
+
+8) In nodes we have 3 components-
+   1) Kubelet [Agent that allow master to slave communication]
+   2) kubeproxy[it's Networking componenent]
+   3) Pod[Pod is a container, this is very initial level defination]
+
+
+9) In my master server we have 4 component-
+    1) API Server: It is responsible for client communication. 
+    2) Schedular: It's primarly responsible for creating and deleting the stuffs.
+    3) Controller: It's control the entire flow.
+    4) etcd: It's memory component.
+
+
+Example: 1) Lets say we need 3 container, so client would be requesting to master server[API server component]      
+         2) API server will internally task to schedular and get activity done.
+
+
+Kubernetes installation
+=======================
+LAB: https://killercoda.com/killer-shell-cka/scenario/playground
+
+Installation: 
+I will make video and share with you by Monday, it like running multiple commands
+
+Homework
+========
+https://devops2020ht66049.s3.us-west-2.amazonaws.com/kubernates.zip  # Watch all 4 videos
+https://www.youtube.com/watch?v=MyNnVurtSf0 # Watch this installation video
+
+
+Issue with docker
+=================
+>>> if you want to create container with multiple node the it would be problem.
+
+$ docker run -p 8080:8080 -idt springcommunity/spring-framework-petclinic
+8b396e8243758deb3c9293e145a33851c80c32e56d1bdb534ecebcf4a04259a1
+docker: Error response from daemon: driver failed programming external connectivity on endpoint funny_jemison (89b27c81d27fac08b8783e3234f41995c180dd8a9d45b9bce3b4b92ed255604f): Bind for 0.0.0.0:8080 failed: port is already allocated.
+
+docker run -idt -p 8081:8081 --name mycontainer nginx
+
+In above command we are running docker container with name:mycontainer, with image:nginx, with port:8081, same thing we are write in kubernetes in YAML format.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mycontainer
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 8081
+
+
+In k8s we define everything in YAML file
+Reason: We I can track in GIT.
+
+To write any object K8s has a formarte
+
+apiVersion
+kind
+metadata
+spec[specification]
