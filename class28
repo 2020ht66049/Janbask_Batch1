@@ -1,0 +1,126 @@
+Large kubernetes cluster details
+=================================
+
+    No more than 110 pods per node
+    No more than 5,000 nodes
+    No more than 150,000 total pods
+    No more than 300,000 total containers
+
+
+Difference between pod and container
+=====================================
+There are three type container-
+1) init container- https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+for i in {1..100}; do sleep 1; if nslookup myservice; then exit 0; fi; done; exit 1 
+
+it will try to get status of application in 100 minutes, if application started then it will give success status, else it give failure.
+
+Brace statement is creating multiple things in a very erriective way
+                   
+
+controlplane $ nslookup google.com
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 142.250.192.110
+Name:   google.com
+Address: 2404:6800:4009:82a::200e
+
+nslookup will provide IP address and hostname.
+
+When we create any instance, it will be in pending stage, and it take 1-2 minute to get started.
+
+
+2) main container- The container which we create by docker image is known as main container.
+
+3) side car container: This is basically a monitoring container
+
+Combination of above containers is known as pod.
+
+in kubernetes we need to write obeject, and all obeject is having few details
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+docker run -idt -p 80:80 --name nginx nginx:1.14.2
+
+to do any configuration we need to save YAML with some name.
+to create configuration we run below command
+kubectl apply -f YAML_file
+kubectl delete -f YAML_file
+
+YAML link: https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/pods/simple-pod.yaml
+controlplane $ kubectl get pods
+No resources found in default namespace.
+controlplane $ vi pod.yaml
+controlplane $ kubectl apply -f pod.yaml 
+pod/nginx created
+controlplane $ kubectl get pods
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          7s
+controlplane $ kubectl delete -f pod.yaml 
+pod "nginx" deleted
+controlplane $ kubectl get pods
+No resources found in default namespace.
+
+
+Replica set: https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/frontend.yaml
+
+Now, my requirement is I want to run 15 pod with nginx image
+
+Earlier, kubernetes support replication controller, but now it started supporting replica set. in replication controller we have only 1 selector, but in replica set we have multiple selector.
+
+list pod where name = frontend
+list pod where name = nginx
+replica set multiple operator are working
+
+
+Service in kubernetes
+=====================
+Service is used to access group of pod as a single entity.
+
+controlplane $ kubectl get pods -o wide
+NAME             READY   STATUS    RESTARTS   AGE    IP             NODE           NOMINATED NODE   READINESS GATES
+frontend-4wcks   1/1     Running   0          8m3s   192.168.1.9    node01         <none>           <none>
+frontend-4xwrq   1/1     Running   0          17m    192.168.1.4    node01         <none>           <none>
+frontend-5zq5g   1/1     Running   0          8m3s   192.168.1.8    node01         <none>           <none>
+frontend-8jmft   1/1     Running   0          17m    192.168.1.5    node01         <none>           <none>
+frontend-blszg   1/1     Running   0          17m    192.168.0.8    controlplane   <none>           <none>
+frontend-k9cvc   1/1     Running   0          8m3s   192.168.1.10   node01         <none>           <none>
+frontend-ll58b   1/1     Running   0          8m3s   192.168.0.12   controlplane   <none>           <none>
+frontend-ltl2x   1/1     Running   0          8m3s   192.168.0.10   controlplane   <none>           <none>
+frontend-tql48   1/1     Running   0          8m3s   192.168.0.13   controlplane   <none>           <none>
+frontend-xw7m2   1/1     Running   0          8m3s   192.168.0.11   controlplane   <none>           <none>
+
+in kubernetes we have 4 types of service-
+1) cluster-ip:
+2) load balance:
+3) nodeport: you can access the pod with the help of node
+3) direct access: Here we are accessing the pod directly by their ip address.
+
+>>> node:pod
+
+Private ip vs public ip
+=========================
+Private ip you can use within your network only.
+public ip is accessible anywhere
+
+Private ip is most reliable, and secure communication. private ip never change, but public do
+
+Kubernets server
+private ip:ip-172-31-20-50.us-west-2.compute.internal 
+public ip:ec2-34-221-148-244.us-west-2.compute.amazonaws.com
+
+New: ip-172-31-20-50.us-west-2.compute.internal
+     ec2-35-91-231-97.us-west-2.compute.amazonaws.com
+
