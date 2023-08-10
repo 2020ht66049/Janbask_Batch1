@@ -1,0 +1,100 @@
+label, configmap, Secrets, namespace, annotation, linting
+==========================================================
+
+helm lint
+=========
+
+>> Whenever we are creating helm chart, chart my contain some thing which is not valid
+>> examine a chart for possible issues
+
+controlplane $ helm lint patrick/
+==> Linting patrick/
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+controlplane $ helm lint umesh/
+==> Linting umesh/
+[INFO] Chart.yaml: icon is recommended
+[ERROR] templates/: template: umesh/templates/serviceaccount.yaml:1:14: executing "umesh/templates/serviceaccount.yaml" at <.Values.serviceAccount.create>: nil pointer evaluating interface {}.create
+
+annotation
+==========
+Whenever, We are creating anything we do as part of any ticket
+Ticket1234: Create a nginx pod
+you can use that ticket with annonation where you specify ticket number
+
+"metadata": {
+  "annotations": {
+    "key1" : "value1",
+    "key2" : "value2"
+  }
+}
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: annotations-demo
+  annotations:
+    Ticketnumber: "ticket12345"
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+namespace
+=========
+It's a linux feature, /home/umesh, /home/patrick
+
+I want to create 2 docker image with port 80, and image name is spring pet clinic
+
+controlplane $ docker run -p 8080:8080 -idt springcommunity/spring-framework-petclinic
+f1f5c0ba0a4953dc98a825b7e768943d8631c5f58f9a8bea95be32e4b2abb12a
+docker: Error response from daemon: driver failed programming external connectivity on endpoint recursing_snyder (899561ed27348b0e11868c50957c8fbd8447779fa6c8a2cf1fe7a1f003159312): Bind for 0.0.0.0:8080 failed: port is already allocated.
+
+We cant run multiple images with same name in docker/kubernetes, so better lets got for name space. 
+
+it's like virtual host where by combination of host and port we are creating multiple link.
+
+generally we have 65000 port, janbask.com
+janbask:1
+janbask:2
+...
+janbask:65000
+
+
+Configmap/Secrets
+=================
+
+Suppose, I want to run application with port 8080 and image name is alpine
+
+docker run  apline
+
+Configmap
+=========
+Port:8080
+CPU:1core
+RAM:200MB
+
+Secrets
+=======
+to pass the sentive information
+
+What happen when we create the pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+Whenever you are create a pod, you may specify few values, but by default kubernetes add remaining all mandetory parameter with default value.
+
